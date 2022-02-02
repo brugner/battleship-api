@@ -1,0 +1,157 @@
+1. Sign Up
+A user can sign up providing username and password. Username must be unique. 
+The password won't be stored as plain text in the database, instead, a hash will be generated
+from the password and stored.
+
+POST /api/auth/sign-up
+{
+    "username": "saturn",
+    "password": "123456",
+    "confirmPassword": "123456"
+}
+
+Responses:
+200 OK: user created
+400 Bad request: model is invalid
+
+2. Sign invalid
+A user can sign in providing username and password. The system will return a JWT token.
+
+POST /api/auth/sign-in
+{
+    "username": "saturn",
+    "password": "123456"
+}
+
+Responses:
+200 OK: login successful
+400 Bad request: username or password invalid
+
+3. Challenge
+A player can challenge another player to a game. The challenger data is located in the JWT token. The request body 
+specifies the potential opponent username.
+
+POST /api/challenges/new
+{
+    "opponent": "mars"
+}
+
+Responses:
+200 OK: challenge sent successfully
+400 Bad request: invalid opponent username
+
+4. Get challenges
+Returns a collection of challenges. If specified, a status filter is applied.
+
+GET /api/challenges?status=1
+
+Responses:
+200 OK: a collection of challenges
+
+5. Accept a challenge
+A player accepts the challenge of another and a new game starts.
+
+POST /api/challenges/{id}/accept
+
+Responses:
+200 OK: challenge accepted, creates a battle and returns battle Id
+400 Bad request: invalid challenge id or state
+
+6. Get battles waiting for ships
+Get a collection of the player battles with status 'WaitingForShips'
+
+GET /api/battles?status=waiting
+
+Responses:
+200 OK: a collection of battles
+
+7. Set ships position
+At the beginning of the game, each player sets the position of its ships. After both players set their ships 
+the battle begins and player 1 fires first.
+
+POST /api/battles/{id}/set-ships
+{
+    "carrier": [ "A1", "B1", "C1", "D1, "E1" ],
+    "battleship": [ "A3", "A4", "A5", "A6" ],
+    "cruiser": [ "F3", "G3", "H3" ],
+    "submarine": [ "H10", "I10", "J10" ],
+    "destroyer": [ "A8", "B8" ]
+}
+
+Responses:
+200 OK: positions set successfully
+400 Bad request: invalid position
+
+8. Fire!
+A player fires at the enemy ships.
+
+POST /api/battles/{id}/fire
+{
+    "target": "E7"
+}
+
+Responses:
+200 OK: result of the shot, either hit or miss
+400 Bad Request: invalid target
+
+9. Get battle info
+Returns the info related to the specified battle.
+
+GET /api/battles/{id}
+
+Responses:
+200 OK: battle info.
+{
+    "battleId": 1,
+    "player1Id": 1,
+    "player2Id": 2,
+    "status": 2,
+    "turn": 1,
+    "oceanGrid": {
+        "a": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "b": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "c": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "d": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "e": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "f": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "g": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "h": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "i": [ "s", null, "s", "s", "s", "h", null, null, null, null ],
+        "j": [ "s", null, "s", "s", "s", "h", null, null, null, null ]
+    },
+    "trackingGrid": {
+        "a": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "b": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "c": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "d": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "e": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "f": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "g": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "h": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "i": [ "h", "h", "m", null, null, "h", null, null, null, null ],
+        "j": [ "h", "h", "m", null, null, "h", null, null, null, null ]
+    },
+    "shots": [
+        {
+            "playerId": 1,
+            "target": "F5",
+            "result": "m"
+        },
+        {
+            "playerId": 2,
+            "target": "G10",
+            "result": "h"
+        }
+    ]
+}
+
+10. Get my turns
+Return a list of battles where the player is to shoot.
+
+GET /api/battles/my-turn
+
+Responses:
+200 OK: a list of battle ids
+{
+    "battles": [ 1, 2, 3 ]
+}

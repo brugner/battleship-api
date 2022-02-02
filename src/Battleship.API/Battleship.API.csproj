@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
+    <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Core\Exceptions\" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Endpoints\" />
+    <None Remove="Endpoints\Auth\" />
+    <None Remove="Ardalis.ApiEndpoints" />
+    <None Remove="Swashbuckle.AspNetCore.Annotations" />
+    <None Remove="Endpoints\Challenges\" />
+    <None Remove="Core\Models\DTOs\Challenges\" />
+    <None Remove="Extensions\" />
+    <None Remove="Endpoints\Error\" />
+    <None Remove="Core\Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\Exceptions\" />
+    <Folder Include="Endpoints\" />
+    <Folder Include="Endpoints\Auth\" />
+    <Folder Include="Endpoints\Challenges\" />
+    <Folder Include="Core\Models\DTOs\Challenges\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Endpoints\Error\" />
+    <Folder Include="Core\Enums\" />
+  </ItemGroup>
+</Project>
